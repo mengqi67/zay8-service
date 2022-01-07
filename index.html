@@ -1,7 +1,7 @@
 <!--
  * @Author: ymq
  * @Date: 2022-01-05 18:50:51
- * @LastEditTime: 2022-01-06 15:15:19
+ * @LastEditTime: 2022-01-07 14:48:56
  * @LastEditors: ymq
  * @Description: 
 -->
@@ -11,9 +11,92 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>welcome to 衣大宝的website</title>
+    <title>welcome to YDB chatroom</title>
+    <style>
+        body{
+            background-image: url("./static/img/background.jpeg");
+            min-height: 100vh;
+            background-size: auto 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat_wrap{
+            width: 700px;
+            height: 700px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+        }
+        .news{
+            height: 70%;
+            box-sizing: border-box;
+            padding: 20px 20px 0;
+        }
+        .news_title{
+            padding: 20px;
+            text-align: center;
+            
+        }
+        .user_info{
+            color: #ccc;
+            font-size: 13px;
+            line-height: 1.5;
+            
+        }
+        .news_item{
+            margin-bottom: 10px;
+        }
+        .message{
+            color: #fff;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .right{
+            text-align: right;
+        }
+        .left .message{
+            background-color: royalblue;
+        }
+        .right .message{
+            background-color: skyblue;
+        }
+        .input_wrap{
+            height: 30%;
+        }
+        .operate_area{
+            
+        }
+    </style>
 </head>
 <body>
-    hello 傻狍子 啦啦啦啦123
+    <div class="chat_wrap">
+        <div class="news">
+            <div class="news_title">12345</div>
+            <div class="news_wrap">
+                <div class="news_item left">
+                    <div class="user_info">
+                        用户1 11-11 8:30
+                    </div>
+                    <div class="message">
+                        我是一个粉刷匠
+                    </div>
+                </div>
+                <div class="news_item right">
+                    <div class="user_info">
+                        用户1 11-11 8:30
+                    </div>
+                    <div class="message">
+                        我是一个粉刷匠
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input_wrap">
+            <div class="operate_area"></div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,25 @@
+{
+  "name": "zay8-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mengqi67/zay8-service.git"
+  },
+  "author": "ymq",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mengqi67/zay8-service/issues"
+  },
+  "homepage": "https://github.com/mengqi67/zay8-service#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
