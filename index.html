@@ -1,7 +1,7 @@
 <!--
  * @Author: ymq
  * @Date: 2022-01-05 18:50:51
- * @LastEditTime: 2022-01-08 17:28:37
+ * @LastEditTime: 2022-01-08 17:29:44
  * @LastEditors: ymq
  * @Description: 
 -->
@@ -52,7 +52,7 @@
             
             const modal = document.getElementById('modal')
             modal.style.display = 'none'
-            ws = new WebSocket('ws://39.96.19.130/chat')
+            ws = new WebSocket('ws://39.96.19.130:443/chat')
             ws.onopen = e => {
                 // sessionStorage.setItem('nick_name', nick_name)
                 ws.send(JSON.stringify({
