@@ -1,7 +1,7 @@
 <!--
  * @Author: ymq
  * @Date: 2022-01-05 18:50:51
- * @LastEditTime: 2022-01-07 14:48:56
+ * @LastEditTime: 2022-01-08 16:31:35
  * @LastEditors: ymq
  * @Description: 
 -->
@@ -11,92 +11,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style/index.css">
     <title>welcome to YDB chatroom</title>
-    <style>
-        body{
-            background-image: url("./static/img/background.jpeg");
-            min-height: 100vh;
-            background-size: auto 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chat_wrap{
-            width: 700px;
-            height: 700px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-        }
-        .news{
-            height: 70%;
-            box-sizing: border-box;
-            padding: 20px 20px 0;
-        }
-        .news_title{
-            padding: 20px;
-            text-align: center;
-            
-        }
-        .user_info{
-            color: #ccc;
-            font-size: 13px;
-            line-height: 1.5;
-            
-        }
-        .news_item{
-            margin-bottom: 10px;
-        }
-        .message{
-            color: #fff;
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        .right{
-            text-align: right;
-        }
-        .left .message{
-            background-color: royalblue;
-        }
-        .right .message{
-            background-color: skyblue;
-        }
-        .input_wrap{
-            height: 30%;
-        }
-        .operate_area{
-            
-        }
-    </style>
 </head>
 <body>
     <div class="chat_wrap">
         <div class="news">
-            <div class="news_title">12345</div>
-            <div class="news_wrap">
-                <div class="news_item left">
-                    <div class="user_info">
-                        用户1 11-11 8:30
-                    </div>
-                    <div class="message">
-                        我是一个粉刷匠
-                    </div>
-                </div>
-                <div class="news_item right">
-                    <div class="user_info">
-                        用户1 11-11 8:30
-                    </div>
-                    <div class="message">
-                        我是一个粉刷匠
-                    </div>
-                </div>
+            <div class="news_title">欢迎来到衣大宝的聊天室</div>
+            <div class="news_wrap" id="news_wrap">
+                
             </div>
         </div>
         <div class="input_wrap">
             <div class="operate_area"></div>
+            <div class="text_area">
+                <textarea name="" id="message_send" cols="30" rows="10" placeholder="请输入"></textarea>
+            </div>
+            <div class="btn_area">
+                <div class="button" onclick="sendMsg()">发送</div>
+            </div>
         </div>
     </div>
+
+
+    <div class="modal" id="modal">
+        <div class="content_wrap">
+            <p>请输入您的昵称</p>
+            <input type="text" id="nick_name" placeholder="请输入">
+            <div class="link_btn" onclick="startLink()">确定</div>
+        </div>
+    </div>
+
+    <script>
+        let ws
+        let nick_name
+
+        function startLink(params) {
+            nick_name = document.getElementById('nick_name').value
+            if(!nick_name) return
+            
+            const modal = document.getElementById('modal')
+            modal.style.display = 'none'
+            ws = new WebSocket('ws://0.0.0.0:443/chat')
+            ws.onopen = e => {
+                // sessionStorage.setItem('nick_name', nick_name)
+                ws.send(JSON.stringify({
+                    type: 'entry',
+                    value: nick_name
+                }))
+                // ws.send(nick_name)
+            }
+
+            ws.onmessage = e => {
+                const data = JSON.parse(e.data)
+
+                switch (data.type) {
+                    case 'entry':
+                        news_wrap.append(createEntryNode(data))
+                        break;
+                    case 'message':
+                        news_wrap.append(createMsgNode(data));
+                        message_send.value = ''
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        function createEntryNode(data) {
+            let node = document.createElement('div')
+            node.classList.add('user_status')
+            let children = document.createElement('span')
+            if(data.value == nick_name) {
+                children.innerText = '欢迎进入聊天室'
+            }else {
+                children.innerText = data.value + '进入聊天室'
+            }
+            node.append(children)
+            console.log(node);
+            return node
+        }
+
+        function sendMsg(params) {
+            const msg = message_send.value
+            if(!msg) return
+
+            ws.send(JSON.stringify({
+                type: 'message',
+                nick_name,
+                value:{
+                    msg
+                }
+            }))
+        }
+
+        function createMsgNode(data) {
+            const node = document.createElement('div')
+            if(data.nick_name == nick_name) {
+                node.classList.add('right')
+            }else {
+                node.classList.add('left')
+            }
+            const children = `<div class="user_info">
+                        ${nick_name} ${data.value.time}
+                    </div>
+                    <div class="message">
+                        ${data.value.msg}
+                    </div>`
+            node.innerHTML = children
+            return node
+        }
+    </script>
 </body>
 </html>
